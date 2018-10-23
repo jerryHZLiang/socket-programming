@@ -23,10 +23,11 @@ int main(int argc, char *argv[])
     struct sockaddr_in echoClntAddr; /* Client address */
     unsigned short echoServPort;     /* Server port */
     unsigned int clntLen;            /* Length of client address data structure */
+    char *msg;
     int yes = 1;
     if (argc != 2) /* Test for correct number of arguments */
     {
-        fprintf(stderr, "Usage:  %s <Server Port> <Server Message>\n", argv[0]);
+        fprintf(stderr, "Usage:  %s <Server Port>\n", argv[0]);
         exit(1);
     }
 
@@ -63,6 +64,18 @@ int main(int argc, char *argv[])
     printf("input 'quit' to quit the server.\n");
     for (;;) /* Run forever */
     {
+        if(){        /* Set the size of the in-out parameter */
+        clntLen = sizeof(echoClntAddr);
+        /* Wait for a client to connect */
+        if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, &clntLen)) < 0)
+            DieWithError("accept() failed");
+        int sendnum=0;
+        //if(sendnum=!=strlen(msg))
+        recv(clntSock, msg, strlen(msg)-1, 0);
+        msg = strrev(msg);  
+        send(clntSock, msg, sizeof(msg)-1, 0);
+        HandleTCPClient(clntSock);
+        }
         FD_ZERO(&rfds);
         // select.
         FD_SET(0, &rfds);

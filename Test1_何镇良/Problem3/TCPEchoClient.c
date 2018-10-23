@@ -83,19 +83,19 @@ and total bytes read */
     if (connect(sock, (struct sockaddr *)&echoServAddr, sizeof(echoServAddr)) < 0)
         DieWithError("connect() failed");
 
+
+    echoStringLen = strlen(echoString); /* Determine input length */
+    /* Send the string to the server */
+    if (send(sock, echoString, echoStringLen, 0) != echoStringLen)
+        DieWithError("send() sent a different number of bytes than expected");
+
     while (bytesRcvd == 0)
     {
         if ((bytesRcvd = recv(sock, echoBuffer, RCVBUFSIZE - 1, 0)) <= 0)
             DieWithError("recv() failed or connection closed prematurely");
     }
     printf("\nReceive:'%s' from the server\n", echoBuffer);
-    printf("Sending client's message...\n");
-
-    echoStringLen = strlen(echoString); /* Determine input length */
-    sleep(1);
-    /* Send the string to the server */
-    if (send(sock, echoString, echoStringLen, 0) != echoStringLen)
-        DieWithError("send() sent a different number of bytes than expected");
+   
 
     /* Receive the same string back from the server */
     totalBytesRcvd = 0;
