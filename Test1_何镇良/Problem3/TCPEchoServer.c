@@ -14,6 +14,31 @@
 void DieWithError(char *errorMessage); /* Error handling function */
 void HandleTCPClient(int clntSocket);  /* TCP client handling function */
 
+void reverseStr(char *str)
+{
+	int length;			
+	char *p1;
+	char *p2;
+ 
+	length = strlen(str);		//获取字符串长度
+	p1	   = str;				//p1指向字符串首地址
+	p2     = str + length - 1;	//p2指向字符串尾地址
+	if (str == NULL)		
+	{
+		printf("空指针错误！");
+		return ;
+	}
+	while (p1 < p2)				//当p1地址小于p2地址时执行循环
+	{
+		char c = *p1;			
+		*p1	   = *p2;				//完成指针指向地址的值的交换
+		*p2    = c;
+		p1++;						//交换完毕后p1指针指向下一个字符地址
+		p2--;						//交换完毕后p2指针指向上一个字符地址
+	}
+ 
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -63,19 +88,18 @@ int main(int argc, char *argv[])
 
     printf("input 'quit' to quit the server.\n");
     for (;;) /* Run forever */
-    {
-        if(){        /* Set the size of the in-out parameter */
-        clntLen = sizeof(echoClntAddr);
-        /* Wait for a client to connect */
-        if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, &clntLen)) < 0)
-            DieWithError("accept() failed");
-        int sendnum=0;
-        //if(sendnum=!=strlen(msg))
-        recv(clntSock, msg, strlen(msg)-1, 0);
-        msg = strrev(msg);  
-        send(clntSock, msg, sizeof(msg)-1, 0);
-        HandleTCPClient(clntSock);
-        }
+    {      /* Set the size of the in-out parameter */
+        // clntLen = sizeof(echoClntAddr);
+        // /* Wait for a client to connect */
+        // if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, &clntLen)) < 0)
+        //     DieWithError("accept() failed");
+        // int sendnum=0;
+        // //if(sendnum=!=strlen(msg))
+        // recv(clntSock, msg, strlen(msg)-1, 0);
+        // msg = reverseStr(msg);  
+        // send(clntSock, msg, sizeof(msg)-1, 0);
+        // HandleTCPClient(clntSock);
+        // }
         FD_ZERO(&rfds);
         // select.
         FD_SET(0, &rfds);
